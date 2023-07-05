@@ -7,6 +7,7 @@ class Bucket {
   String content; // 할 일
   bool isDone; // 완료 여부
   bool pinState; // 핀 상태
+  DateTime? endDate;
 
   Bucket(this.content, this.isDone, this.pinState); // 생성자
 }
