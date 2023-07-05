@@ -125,9 +125,14 @@ class FirstTab extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
-                color: Colors.white,
                 height: MediaQuery.of(context).size.height * 0.5,
                 width: MediaQuery.of(context).size.width * 0.9,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(8),
+                  ),
+                ),
                 child: Column(
                   children: [Text("그래프 넣기")],
                 ),
@@ -203,14 +208,6 @@ class SecondTab extends StatelessWidget {
   }
 }
 
-class Bucket {
-  String job; // 할 일
-  bool isDone; // 완료 여부
-  bool pinState;
-
-  Bucket(this.job, this.isDone, this.pinState); // 생성자
-}
-
 // 세번째 페이지
 class ThirdTab extends StatefulWidget {
   const ThirdTab({Key? key}) : super(key: key);
@@ -220,73 +217,76 @@ class ThirdTab extends StatefulWidget {
 }
 
 class _ThirdTabState extends State<ThirdTab> {
-  List<Bucket> bucketList = []; // 전체 버킷리스트 목록
+  //List<Bucket> bucketList = []; // 전체 버킷리스트 목록
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("버킷 리스트"),
-      ),
-      body: bucketList.isEmpty
-          ? Center(child: Text("버킷 리스트를 작성해 주세요."))
-          : ListView.builder(
-              itemCount: bucketList.length, // bucketList 개수 만큼 보여주기
-              itemBuilder: (context, index) {
-                Bucket bucket = bucketList[index]; // index에 해당하는 bucket 가져오기
-                return ListTile(
-                  // pin
-                  leading: IconButton(
-                    icon: bucket.pinState
-                        ? Icon(CupertinoIcons.pin_fill)
-                        : Icon(CupertinoIcons.pin),
-                    onPressed: () {
-                      bucket.pinState = !bucket.pinState;
-                    },
-                  ),
-                  // 버킷 리스트 할 일
-                  title: Text(
-                    bucket.job,
-                    style: TextStyle(
-                      fontSize: 24,
-                      color: bucket.isDone ? Colors.grey : Colors.black,
-                      decoration: bucket.isDone
-                          ? TextDecoration.lineThrough
-                          : TextDecoration.none,
+    return Consumer<BucketService>(builder: (context, BucketService, child) {
+      List<Bucket> bucketList = BucketService.bucketList;
+      return Scaffold(
+        appBar: AppBar(
+          title: Text("버킷 리스트"),
+        ),
+        body: bucketList.isEmpty
+            ? Center(child: Text("버킷 리스트를 작성해 주세요."))
+            : ListView.builder(
+                itemCount: bucketList.length, // bucketList 개수 만큼 보여주기
+                itemBuilder: (context, index) {
+                  Bucket bucket = bucketList[index]; // index에 해당하는 bucket 가져오기
+                  return ListTile(
+                    // pin
+                    leading: IconButton(
+                      icon: bucket.pinState
+                          ? Icon(CupertinoIcons.pin_fill)
+                          : Icon(CupertinoIcons.pin),
+                      onPressed: () {
+                        BucketService.updatePinState(index: index);
+                      },
                     ),
-                  ),
-                  // 삭제 아이콘 버튼
-                  trailing: IconButton(
-                    icon: Icon(CupertinoIcons.delete),
-                    onPressed: () {
-                      showDeleteDialog(context, index);
+                    // 버킷 리스트 할 일
+                    title: Text(
+                      bucket.content,
+                      style: TextStyle(
+                        fontSize: 24,
+                        color: bucket.isDone ? Colors.grey : Colors.black,
+                        decoration: bucket.isDone
+                            ? TextDecoration.lineThrough
+                            : TextDecoration.none,
+                      ),
+                    ),
+                    // 삭제 아이콘 버튼
+                    trailing: IconButton(
+                      icon: Icon(CupertinoIcons.delete),
+                      onPressed: () {
+                        showDeleteDialog(context, index);
+                      },
+                    ),
+                    onTap: () {
+                      // 아이템 클릭시
+                      setState(() {
+                        bucket.isDone = !bucket.isDone;
+                      });
                     },
-                  ),
-                  onTap: () {
-                    // 아이템 클릭시
-                    setState(() {
-                      bucket.isDone = !bucket.isDone;
-                    });
-                  },
-                );
-              },
-            ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () async {
-          // + 버튼 클릭시 버킷 생성 페이지로 이동
-          String? job = await Navigator.push(
-            context,
-            MaterialPageRoute(builder: (_) => CreatePage()),
-          );
-          if (job != null) {
-            setState(() {
-              Bucket newBucket = Bucket(job, false, false);
-              bucketList.add(newBucket); // 버킷 리스트에 추가
-            });
-          }
-        },
-      ),
-    );
+                  );
+                },
+              ),
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.add),
+          onPressed: () async {
+            // + 버튼 클릭시 버킷 생성 페이지로 이동
+            String? job = await Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => CreatePage()),
+            );
+            if (job != null) {
+              setState(() {
+                Bucket newBucket = Bucket(job, false, false);
+                bucketList.add(newBucket); // 버킷 리스트에 추가
+              });
+            }
+          },
+        ),
+      );
+    });
   }
 
   void showDeleteDialog(BuildContext context, int index) {
@@ -308,7 +308,7 @@ class _ThirdTabState extends State<ThirdTab> {
               onPressed: () {
                 setState(() {
                   // index에 해당하는 항목 삭제
-                  bucketList.removeAt(index);
+                  //bucketList.removeAt(index);
                 });
                 Navigator.pop(context);
               },

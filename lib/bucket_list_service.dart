@@ -6,16 +6,20 @@ import 'main.dart';
 class Bucket {
   String content; // 할 일
   bool isDone; // 완료 여부
+  bool pinState; // 핀 상태
 
-  Bucket(this.content, this.isDone); // 생성자
+  Bucket(this.content, this.isDone, this.pinState); // 생성자
 }
 
 // Memo 데이터는 모두 여기서 관리
 class BucketService extends ChangeNotifier {
-  List<Bucket> bucketList = [Bucket('job', false), Bucket('job2', false)];
+  List<Bucket> bucketList = [
+    Bucket('job', false, false),
+    Bucket('job2', false, false)
+  ];
 
   createBucket({required String content}) {
-    Bucket bucket = Bucket(content, false);
+    Bucket bucket = Bucket(content, false, false);
     bucketList.add(bucket);
     notifyListeners();
   }
@@ -23,6 +27,12 @@ class BucketService extends ChangeNotifier {
   updateBucket({required int index, required String content}) {
     Bucket bucket = bucketList[index];
     bucket.content = content;
+    notifyListeners();
+  }
+
+  updatePinState({required int index}) {
+    Bucket bucket = bucketList[index];
+    bucket.pinState = !bucket.pinState;
     notifyListeners();
   }
 }
