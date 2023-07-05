@@ -222,6 +222,8 @@ class _ThirdTabState extends State<ThirdTab> {
   Widget build(BuildContext context) {
     return Consumer<BucketService>(builder: (context, BucketService, child) {
       List<Bucket> bucketList = BucketService.bucketList;
+      bucketList
+          .sort((a, b) => a.pinState == b.pinState ? 0 : (a.pinState ? -1 : 1));
       return Scaffold(
         appBar: AppBar(
           title: Text("버킷 리스트"),
