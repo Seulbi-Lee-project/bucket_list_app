@@ -1,4 +1,5 @@
 import 'package:bucket_list_app/bucket_list_service.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -138,7 +139,7 @@ class FirstTab extends StatelessWidget {
                     ),
                   ),
                   child: Column(
-                    children: [Text("그래프 넣기")],
+                    children: [Text("data")],
                   ),
                 ),
               )
@@ -260,6 +261,10 @@ class _ThirdTabState extends State<ThirdTab> {
                             : TextDecoration.none,
                       ),
                     ),
+                    //완료일
+                    subtitle: Text(bucket.endDate == null
+                        ? ""
+                        : bucket.endDate.toString().substring(0, 10)),
                     // 삭제 아이콘 버튼
                     trailing: IconButton(
                       icon: Icon(CupertinoIcons.delete),
@@ -271,6 +276,7 @@ class _ThirdTabState extends State<ThirdTab> {
                       // 아이템 클릭시
                       setState(() {
                         bucket.isDone = !bucket.isDone;
+                        bucket.endDate = DateTime.now();
                       });
                     },
                   );
