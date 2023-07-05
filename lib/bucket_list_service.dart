@@ -35,4 +35,14 @@ class BucketService extends ChangeNotifier {
     bucket.pinState = !bucket.pinState;
     notifyListeners();
   }
+
+  int isDoneBucket() {
+    int a = 0;
+    for (int i = 0; i < bucketList.length; i++) {
+      if (bucketList[i].isDone == true) {
+        a++;
+      }
+    }
+    return a;
+  }
 }

@@ -95,53 +95,58 @@ class FirstTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            const Color.fromRGBO(245, 207, 218, 1)!,
-            const Color.fromRGBO(193, 188, 238, 1)!
-          ],
+    return Consumer<BucketService>(builder: (context, BucketService, child) {
+      int bucketTotalNumber = BucketService.bucketList.length;
+      int isDoneBucket = BucketService.isDoneBucket();
+
+      return Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              const Color.fromRGBO(245, 207, 218, 1)!,
+              const Color.fromRGBO(193, 188, 238, 1)!
+            ],
+          ),
         ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: SafeArea(
-            child: Column(
-          children: [
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.1,
-            ),
-            Row(
-              children: [Text("총 리스트 갯수 :")],
-            ),
-            Divider(),
-            Row(
-              children: [Text("완료한 버킷리스트 갯수 :")],
-            ),
-            Divider(),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                height: MediaQuery.of(context).size.height * 0.5,
-                width: MediaQuery.of(context).size.width * 0.9,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(8),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: SafeArea(
+              child: Column(
+            children: [
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.1,
+              ),
+              Row(
+                children: [Text("총 리스트 갯수 : $bucketTotalNumber")],
+              ),
+              Divider(),
+              Row(
+                children: [Text("완료한 버킷리스트 갯수 : $isDoneBucket")],
+              ),
+              Divider(),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  height: MediaQuery.of(context).size.height * 0.5,
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(8),
+                    ),
+                  ),
+                  child: Column(
+                    children: [Text("그래프 넣기")],
                   ),
                 ),
-                child: Column(
-                  children: [Text("그래프 넣기")],
-                ),
-              ),
-            )
-          ],
-        )),
-      ),
-    );
+              )
+            ],
+          )),
+        ),
+      );
+    });
   }
 }
 
