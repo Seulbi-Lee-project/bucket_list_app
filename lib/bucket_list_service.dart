@@ -12,7 +12,7 @@ class Bucket {
   Bucket(this.content, this.isDone, this.pinState); // 생성자
 }
 
-// Memo 데이터는 모두 여기서 관리
+// bucket 데이터는 모두 여기서 관리
 class BucketService extends ChangeNotifier {
   List<Bucket> bucketList = [
     Bucket('job', false, false),
