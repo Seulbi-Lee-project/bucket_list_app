@@ -206,6 +206,9 @@ class SecondTab extends StatelessWidget {
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
               ),
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.1,
             )
           ],
         ),
