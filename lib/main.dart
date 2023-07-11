@@ -456,7 +456,7 @@ class _BarChart extends StatelessWidget {
 
   Widget getTitles(double value, TitleMeta meta) {
     final style = TextStyle(
-      color: Colors.red,
+      color: Colors.red.shade100,
       fontWeight: FontWeight.bold,
       fontSize: 14,
     );
