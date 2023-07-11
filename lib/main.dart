@@ -466,25 +466,25 @@ class _BarChart extends StatelessWidget {
     String text;
     switch (value.toInt()) {
       case 0:
-        text = 'Mn';
+        text = '1월';
         break;
       case 1:
-        text = 'Te';
+        text = '2월';
         break;
       case 2:
-        text = 'Wd';
+        text = '3월';
         break;
       case 3:
-        text = 'Tu';
+        text = '4월';
         break;
       case 4:
-        text = 'Fr';
+        text = '5월';
         break;
       case 5:
-        text = 'St';
+        text = '6월';
         break;
       case 6:
-        text = 'Sn';
+        text = '7월';
         break;
       default:
         text = '';
